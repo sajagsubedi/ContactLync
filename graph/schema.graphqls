@@ -1,0 +1,41 @@
+type User {
+  id: ID!
+  name: String!
+  phone: String!
+  address: String!
+  email: String!
+  relation: String!
+}
+
+type Query {
+  users: [User]
+  user(id: ID!): User
+  userByFilter(input:filterInput):[User]
+}
+input filterInput{
+field:String!
+value:String!
+}
+
+type Mutation {
+  createUser(input:createUserInput): User
+  updateUser(input:updateUserInput): User
+  deleteUser(id: ID!): User
+}
+
+input createUserInput{
+name: String!
+phone: String!
+address: String!
+email: String!
+relation: String!
+}
+
+input updateUserInput{
+id: ID!
+name: String
+phone: String
+address: String
+email: String
+relation: String
+}
