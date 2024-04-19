@@ -28,8 +28,7 @@ ContactLync is a GraphQL API built in Go for managing contact information. It al
 
 5. Build and run the application:
    ```
-   go build
-   ./ContactLync
+   go build server.go && go run server.go
    ```
 
 #### Examples:
