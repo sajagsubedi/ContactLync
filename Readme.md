@@ -9,7 +9,7 @@ ContactLync is a GraphQL API built in Go for managing contact information. It al
 #### Setup:
 1. Clone the repository:
    ```
-   git clone <repository_url>
+   git clone https://github.com/sajagsubedi/ContactLync.git
    ```
 
 2. Navigate to the project directory:
