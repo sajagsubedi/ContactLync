@@ -9,7 +9,7 @@ type Query struct {
 }
 
 type User struct {
-	ID       string `json:"id"`
+	ID       string `json:"_id"`
 	Name     string `json:"name"`
 	Phone    string `json:"phone"`
 	Address  string `json:"address"`
@@ -31,7 +31,7 @@ type FilterInput struct {
 }
 
 type UpdateUserInput struct {
-	ID       string  `json:"id"`
+	ID       string  `json:"_id"`
 	Name     *string `json:"name,omitempty"`
 	Phone    *string `json:"phone,omitempty"`
 	Address  *string `json:"address,omitempty"`
