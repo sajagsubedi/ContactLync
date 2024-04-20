@@ -12,8 +12,8 @@ import(
   "go.mongodb.org/mongo-driver/mongo/options"
   "go.mongodb.org/mongo-driver/mongo/readpref"
 )
- var connectionString string=os.Getenv("MONGO_URI")
- 
+var connectionString string = os.Getenv("MONGO_URI")
+
 type DB struct {
   client *mongo.Client
 }
@@ -45,39 +45,70 @@ func ConnectDb() *DB {
 
 //methods in db
 func(db *DB) CreateUser(input *model.CreateUserInput) *model.User {
-  return &model.User{}
+  return &model.User {}
 }
 
 func(db *DB) UpdateUser(input *model.UpdateUserInput)*model.User {
-  return &model.User{}
+  return &model.User {}
 }
 
-func(db *DB) DeleteUser(id string) *model.User {
-  return &model.User{}
+func(db *DB) DeleteUser(id string) *model.DeleteUserResponse {
+  userCollec:= db.client.Database("contactlync").Collection("users")
+  ctx,
+  cancel:= context.WithTimeout(context.Background(), 20*time.Second)
+  defer cancel()
+  _id,
+  _:= primitive.ObjectIDFromHex(id)
+  filter:= bson.M {
+    "_id": _id,
+  }
+
+  _,err:= userCollec.DeleteOne(ctx, filter)
+  if err != nil {
+    log.Fatal(err)
+  }
+  return &model.DeleteUserResponse{DeletedUserID:id}
 
 }
 
 func(db *DB) Users() []*model.User {
-  return []*model.User{}
-
-}
-
-func(db *DB) User(id string) *model.User {
- userCollec:=db.client.Database("contactlync").Collection("users")
+  userCollec:= db.client.Database("contactlync").Collection("users")
   ctx,
   cancel:= context.WithTimeout(context.Background(), 20*time.Second)
   defer cancel()
-  _id, _ :=primitive.ObjectIDFromHex(id)
-  filter:=bson.M{"_id":_id}
-  
+
+  var users []*model.User
+  cursor,
+  err:= userCollec.Find(ctx, bson.D {})
+  if err != nil {
+    log.Fatal(err)
+  }
+  if err = cursor.All(context.TODO(), &users); err != nil {
+    log.Fatal(err)
+
+  }
+  return users
+}
+
+func(db *DB) User(id string) *model.User {
+  userCollec:= db.client.Database("contactlync").Collection("users")
+  ctx,
+  cancel:= context.WithTimeout(context.Background(), 20*time.Second)
+  defer cancel()
+  _id,
+  _:= primitive.ObjectIDFromHex(id)
+  filter:= bson.M {
+    "_id": _id,
+  }
+
   var foundUser model.User
-  err:=userCollec.FindOne(ctx,filter).Decode(&foundUser)
-  if err!=nil{
+  err:= userCollec.FindOne(ctx, filter).Decode(&foundUser)
+  if err != nil {
     log.Fatal(err)
   }
   return &foundUser
 }
 
 func(db *DB) UserByFilter(input *model.FilterInput) []*model.User {
-  return []*model.User{}
+  return []*model.User {}
 }

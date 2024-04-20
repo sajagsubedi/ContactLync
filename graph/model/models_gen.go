@@ -2,6 +2,10 @@
 
 package model
 
+type DeleteUserResponse struct {
+	DeletedUserID string `json:"deletedUserId"`
+}
+
 type Mutation struct {
 }
 

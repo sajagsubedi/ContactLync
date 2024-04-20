@@ -20,7 +20,7 @@ value:String!
 type Mutation {
   createUser(input:createUserInput): User
   updateUser(input:updateUserInput): User
-  deleteUser(id: ID!): User
+  deleteUser(id: ID!): DeleteUserResponse
 }
 
 input createUserInput{
@@ -38,4 +38,8 @@ phone: String
 address: String
 email: String
 relation: String
+}
+
+type DeleteUserResponse{
+deletedUserId:String!
 }
