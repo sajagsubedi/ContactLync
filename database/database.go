@@ -45,7 +45,19 @@ func ConnectDb() *DB {
 
 //methods in db
 func(db *DB) CreateUser(input *model.CreateUserInput) *model.User {
-  return &model.User {}
+ userCollec:= db.client.Database("contactlync").Collection("users")
+  ctx,
+  cancel:= context.WithTimeout(context.Background(), 20*time.Second)
+  defer cancel()
+  inserg, err := userCollec.InsertOne(ctx, bson.M{"name": input.Name,  "phone": input.Phone, "address": input.Address,"email": input.Email, "relation": input.Relation,})
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	insertedID := inserg.InsertedID.(primitive.ObjectID).Hex()
+	newUser := model.User{ID: insertedID, Name: input.Name,  Phone: input.Phone, Address: input.Address,Email: input.Email, Relation: input.Relation,}
+	return &newUser
 }
 
 func(db *DB) UpdateUser(input *model.UpdateUserInput)*model.User {
